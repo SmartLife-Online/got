@@ -1,0 +1,263 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+
+<meta name = "viewport" content = "width=device-width, initial-scale = 1, maximum-scale = 1, user-scalable = no" />
+
+<title></title>
+
+<link rel="icon" type="image/png" href="https://smartlife-online.de/icons/sl_favicon_black.png">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="robots" content="all">
+
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+body {
+	font-size: 18px;
+}
+
+table {
+	margin-top: 100px;
+	margin-left: 50px;
+	border-collapse: collapse;
+}
+
+td {
+	width: 240px;
+	padding: 10px 20px;
+	text-align: center;
+	border-style: dashed;
+	border-width: 2px;
+	border-color: rgb(0, 150, 50);
+	background-color: rgb(255, 255, 255);
+	transition: all 0.5s ease-in-out;
+}
+
+td:hover {
+	background-color: rgb(0, 150, 50);
+	transform: scale(1.20);
+	cursor: pointer;
+}
+
+#infoBox {
+	position: fixed;
+	max-height: 50%;
+	width: 50%;
+	top: 25%;
+	left: 25%;
+	padding: 5%;
+	border-color: rgba(0, 0, 0, 1);
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+	background-color: rgba(255, 255, 255, 0.98);
+	font-size: 20px;
+	line-height: 150%;
+	overflow: auto;
+	opacity: 0;
+	display: none;
+	z-index: 20000;
+	-webkit-transition:  opacity 1s;
+	transition: opacity 1s;
+}
+
+.infoBox p {
+	margin-top: 20px;
+}
+
+#bgWin {
+	position: fixed;
+	border-color:rgba(0, 0, 0, 0);
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(50, 50, 50, 0.5);
+	opacity: 0;
+	display: none;
+	z-index: 10000;
+	-webkit-transition:  opacity 1s;
+	transition:  opacity 1s;
+}
+</style>
+
+</head>
+<body>
+
+<div id="app">
+	
+	<house></house>
+	
+</div>
+<script>
+var region = '';
+var coatOfArms = '';
+var currentLord = '';
+var heir = '';
+var overlord = '';
+var founded = '';
+var founder = '';
+var diedOut = '';
+
+Vue.component('house', {
+	template: `<div>
+<table>
+	<tr v-for="(house, index) in  houses">
+		<td @click="showInfo(index)">{{ house.name }}</td>
+	</tr>
+</table>
+
+<div id="infoBox" ref="infoBox">
+	<span></span>
+</div>
+
+<div id="bgWin" ref="bgWin" @click="hiddeInfo()"></div>
+
+</div>`,
+	data() {
+		return {
+			houses: []
+		}
+	},
+	created () {
+		fetch('https://anapioficeandfire.com/api/houses/')
+			.then(response => response.json())
+			.then(json => {
+				this.houses = json;
+				console.log(this.houses);
+			})
+	},
+	methods: {
+		showInfo: function(index) {
+			region = '';
+			coatOfArms = '';
+			currentLord = '';
+			heir = '';
+			overlord = '';
+			founded = '';
+			founder = '';
+			diedOut = '';
+			region = this.houses[index].region;
+			
+			if(this.houses[index].coatOfArms != '') {
+				coatOfArms = this.houses[index].coatOfArms;
+			}
+			if(this.houses[index].words != '') {
+				words = this.houses[index].words;
+			}
+			if(this.houses[index].currentLord != '') {
+				fetch(this.houses[index].currentLord).then(response => response.json())
+					.then(json => {
+						currentLord = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			if(this.houses[index].heir != '') {
+				fetch(this.houses[index].heir).then(response => response.json())
+					.then(json => {
+						heir = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			if(this.houses[index].overlord != '') {
+				fetch(this.houses[index].overlord).then(response => response.json())
+					.then(json => {
+						overlord = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			if(this.houses[index].founded != '') {
+				fetch(this.houses[index].founded).then(response => response.json())
+					.then(json => {
+						founded = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			if(this.houses[index].founded != '') {
+				fetch(this.houses[index].founded).then(response => response.json())
+					.then(json => {
+						founded = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			if(this.houses[index].diedOut != '') {
+				fetch(this.houses[index].diedOut).then(response => response.json())
+					.then(json => {
+						diedOut = json.name;
+						console.log(json.name);
+						fillInfo();
+					})
+			}
+			
+			fillInfo();
+			this.$refs.infoBox.style.display = 'block';
+			this.$refs.bgWin.style.display = 'block';
+			
+			setTimeout(function(){
+				document.getElementById('infoBox').style.opacity = '1';
+				document.getElementById('bgWin').style.opacity = '1';
+            }, 50);
+		},
+		hiddeInfo: function() {
+			
+			this.$refs.infoBox.style.opacity = '0';
+			this.$refs.bgWin.style.opacity = '0';
+			
+			setTimeout(function(){
+				document.getElementById('infoBox').style.display = 'none';
+				document.getElementById('bgWin').style.display = 'none';
+            }, 1000);
+		}
+	}
+})
+
+const app = new Vue({
+	el: '#app',
+	data: {
+	}
+})
+
+function fillInfo() {
+	let text = '';
+	text += '<ul><li>Region: ' + region;
+	
+	if(coatOfArms != '') {
+		text += '</li><li>Coat of arms: ' + coatOfArms;
+	}
+	if(words != '') {
+		text += '</li><li>Words: ' + words;
+	}
+	if(currentLord != '') {
+		text += '</li><li>Current Lord: ' + currentLord;
+	}
+	if(heir != '') {
+		text += '</li><li>Heir: ' + heir;
+	}
+	if(overlord != '') {
+		text += '</li><li>Overlord: ' + overlord;
+	}
+	
+	if(founded != '') {
+		text += '</li><li>Founded: ' + founded;
+	}
+	if(founder != '') {
+		text += '</li><li>Founder: ' + founder;
+	}
+	if(diedOut != '') {
+		text += '</li><li>Died out: ' + diedOut;
+	}
+	
+	document.getElementById('infoBox').innerHTML = text;
+}
+</script>
+
+</body>
+
+</html>
