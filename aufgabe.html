@@ -94,6 +94,7 @@ td:hover {
 <script>
 var region = '';
 var coatOfArms = '';
+var words = '';
 var currentLord = '';
 var heir = '';
 var overlord = '';
@@ -126,19 +127,19 @@ Vue.component('house', {
 			.then(response => response.json())
 			.then(json => {
 				this.houses = json;
-				console.log(this.houses);
 			})
 	},
 	methods: {
 		showInfo: function(index) {
-			region = '';
 			coatOfArms = '';
+			words = '';
 			currentLord = '';
 			heir = '';
 			overlord = '';
 			founded = '';
 			founder = '';
 			diedOut = '';
+			
 			region = this.houses[index].region;
 			
 			if(this.houses[index].coatOfArms != '') {
@@ -151,7 +152,6 @@ Vue.component('house', {
 				fetch(this.houses[index].currentLord).then(response => response.json())
 					.then(json => {
 						currentLord = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -159,7 +159,6 @@ Vue.component('house', {
 				fetch(this.houses[index].heir).then(response => response.json())
 					.then(json => {
 						heir = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -167,7 +166,6 @@ Vue.component('house', {
 				fetch(this.houses[index].overlord).then(response => response.json())
 					.then(json => {
 						overlord = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -175,7 +173,6 @@ Vue.component('house', {
 				fetch(this.houses[index].founded).then(response => response.json())
 					.then(json => {
 						founded = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -183,7 +180,6 @@ Vue.component('house', {
 				fetch(this.houses[index].founded).then(response => response.json())
 					.then(json => {
 						founded = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -191,7 +187,6 @@ Vue.component('house', {
 				fetch(this.houses[index].diedOut).then(response => response.json())
 					.then(json => {
 						diedOut = json.name;
-						console.log(json.name);
 						fillInfo();
 					})
 			}
@@ -225,8 +220,7 @@ const app = new Vue({
 })
 
 function fillInfo() {
-	let text = '';
-	text += '<ul><li>Region: ' + region;
+	let text = '<ul><li>Region: ' + region;
 	
 	if(coatOfArms != '') {
 		text += '</li><li>Coat of arms: ' + coatOfArms;
@@ -243,7 +237,6 @@ function fillInfo() {
 	if(overlord != '') {
 		text += '</li><li>Overlord: ' + overlord;
 	}
-	
 	if(founded != '') {
 		text += '</li><li>Founded: ' + founded;
 	}
@@ -254,7 +247,7 @@ function fillInfo() {
 		text += '</li><li>Died out: ' + diedOut;
 	}
 	
-	document.getElementById('infoBox').innerHTML = text;
+	document.getElementById('infoBox').innerHTML = text + '</li></ul>';
 }
 </script>
 
