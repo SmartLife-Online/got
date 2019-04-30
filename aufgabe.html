@@ -3,21 +3,43 @@
 
 <meta name = "viewport" content = "width=device-width, initial-scale = 1, maximum-scale = 1, user-scalable = no" />
 
-<title></title>
+<title>Game of throne houses</title>
 
 <link rel="icon" type="image/png" href="https://smartlife-online.de/icons/sl_favicon_black.png">
 
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta name="description" content="All houses of game of thrones">
+<meta name="keywords" content="game of thrones">
 <meta name="robots" content="all">
 
 <script src="https://unpkg.com/vue"></script>
 
 <style>
-body {
+html, body {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	min-height: 100%;
 	font-size: 18px;
+	font-family: "Trebuchet MS";
 }
 
+#bgWin {
+	position: fixed;
+	border-color:rgba(0, 0, 0, 0);
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(50, 50, 50, 0.5);
+	opacity: 0;
+	display: none;
+	z-index: 10000;
+	-webkit-transition:  opacity 1s;
+	transition:  opacity 1s;
+}
+</style>
+
+<style media="only screen and (min-width: 1200px)">
 table {
 	margin-top: 100px;
 	margin-left: 50px;
@@ -66,20 +88,56 @@ td:hover {
 .infoBox p {
 	margin-top: 20px;
 }
+</style>
 
-#bgWin {
+<style media="only screen and (max-width: 1199px)">
+table {
+	margin-top: 100px;
+	margin-left: calc(50% - 141px);
+	border-collapse: collapse;
+}
+
+td {
+	width: 240px;
+	padding: 10px 20px;
+	text-align: center;
+	border-style: dashed;
+	border-width: 2px;
+	border-color: rgb(0, 150, 50);
+	background-color: rgb(255, 255, 255);
+	transition: all 0.5s ease-in-out;
+}
+
+td:hover {
+	background-color: rgb(0, 150, 50);
+	transform: scale(1.20);
+	cursor: pointer;
+}
+
+#infoBox {
 	position: fixed;
-	border-color:rgba(0, 0, 0, 0);
-	height: 100%;
-	width: 100%;
-	left: 0px;
-	top: 0px;
-	background-color: rgba(50, 50, 50, 0.5);
+	max-height: 80%;
+	width: 90%;
+	top: 10%;
+	left: 3%;
+	padding: 2%;
+	border-color: rgba(0, 0, 0, 1);
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+	background-color: rgba(255, 255, 255, 0.98);
+	font-size: 20px;
+	line-height: 150%;
+	overflow: auto;
 	opacity: 0;
 	display: none;
-	z-index: 10000;
+	z-index: 20000;
 	-webkit-transition:  opacity 1s;
-	transition:  opacity 1s;
+	transition: opacity 1s;
+}
+
+.infoBox p {
+	margin-top: 20px;
 }
 </style>
 
