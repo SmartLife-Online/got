@@ -95,12 +95,17 @@ td:hover {
 var region = '';
 var coatOfArms = '';
 var words = '';
+var titles = '';
+var seats = '';
 var currentLord = '';
 var heir = '';
 var overlord = '';
 var founded = '';
 var founder = '';
 var diedOut = '';
+var ancestralWeapons = '';
+var cadetBranches = '';
+var swornMembers = '';
 
 Vue.component('house', {
 	template: `<div>
@@ -133,12 +138,17 @@ Vue.component('house', {
 		showInfo: function(index) {
 			coatOfArms = '';
 			words = '';
+			titles = '';
+			seats = '';
 			currentLord = '';
 			heir = '';
 			overlord = '';
 			founded = '';
 			founder = '';
 			diedOut = '';
+			ancestralWeapons = '';
+			cadetBranches = '';
+			swornMembers = '';
 			
 			region = this.houses[index].region;
 			
@@ -147,6 +157,20 @@ Vue.component('house', {
 			}
 			if(this.houses[index].words != '') {
 				words = this.houses[index].words;
+			}
+			if(this.houses[index].titles != '') {
+				titles = '<ul>';
+				for(let i = 0; i < this.houses[index].titles.length; i++) {
+					titles += '<li>' + this.houses[index].titles[i] + '</li>';
+				}
+				titles += '</ul>';
+			}
+			if(this.houses[index].seats != '') {
+				seats = '<ul>';
+				for(let i = 0; i < this.houses[index].seats.length; i++) {
+					seats += '<li>' + this.houses[index].seats[i] + '</li>';
+				}
+				seats += '</ul>';
 			}
 			if(this.houses[index].currentLord != '') {
 				fetch(this.houses[index].currentLord).then(response => response.json())
@@ -190,6 +214,33 @@ Vue.component('house', {
 						fillInfo();
 					})
 			}
+			if(this.houses[index].seats != '') {
+				seats = '<ul>';
+				for(let i = 0; i < this.houses[index].seats.length; i++) {
+					seats += '<li>' + this.houses[index].seats[i] + '</li>';
+				}
+				seats += '</ul>';
+			}
+			if(this.houses[index].cadetBranches != '') {
+				cadetBranches = '<ul>';
+				for(let i = 0; i < this.houses[index].cadetBranches.length; i++) {
+				fetch(this.houses[index].cadetBranches[i]).then(response => response.json())
+					.then(json => {
+						cadetBranches += '<li>' + json.name + '</li>';
+						fillInfo();
+					})
+				}
+			}
+			if(this.houses[index].swornMembers != '') {
+				swornMembers = '<ul>';
+				for(let i = 0; i < this.houses[index].swornMembers.length; i++) {
+				fetch(this.houses[index].swornMembers[i]).then(response => response.json())
+					.then(json => {
+						swornMembers += '<li>' + json.name + '</li>';
+						fillInfo();
+					})
+				}
+			}
 			
 			fillInfo();
 			this.$refs.infoBox.style.display = 'block';
@@ -228,6 +279,12 @@ function fillInfo() {
 	if(words != '') {
 		text += '</li><li>Words: ' + words;
 	}
+	if(titles != '') {
+		text += '</li><li>Titles: ' + titles;
+	}
+	if(seats != '') {
+		text += '</li><li>Seats: ' + seats;
+	}
 	if(currentLord != '') {
 		text += '</li><li>Current Lord: ' + currentLord;
 	}
@@ -245,6 +302,15 @@ function fillInfo() {
 	}
 	if(diedOut != '') {
 		text += '</li><li>Died out: ' + diedOut;
+	}
+	if(ancestralWeapons != '') {
+		text += '</li><li>Ancestral Weapons: ' + ancestralWeapons;
+	}
+	if(cadetBranches != '') {
+		text += '</li><li>Cadet Branches: ' + cadetBranches + '</ul>';
+	}
+	if(swornMembers != '') {
+		text += '</li><li>Sworn Members: ' + swornMembers + '</ul>';
 	}
 	
 	document.getElementById('infoBox').innerHTML = text + '</li></ul>';
